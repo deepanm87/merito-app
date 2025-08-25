@@ -1,5 +1,7 @@
 export default function Home() {
   return (
-    <h1>Merito App</h1>
+    <main>
+      Main page
+    </main>
   )
 }
