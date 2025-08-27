@@ -1,8 +1,9 @@
 import Link from "next/link"
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 export default function Header() {
 
-    const isSignedIn = false
+    
 
     const navLinks = [
         {
@@ -13,7 +14,7 @@ export default function Header() {
             href: "#pricing",
             label: "Pricing"
         },
-        ...(isSignedIn ? [{ href: "/dashboard",
+        ...(SignedIn ? [{ href: "/dashboard",
             label: "Dashboard"
         }] : [])
     ]
@@ -39,14 +40,18 @@ export default function Header() {
                 </Link>
                 <nav className="flex items-center gap-4 sm:gap-6">
                     {navLinkElements}
-                    { isSignedIn ? ( <></>) : (
+
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
+                    <SignedOut>
                         <Link 
                             href="/sign-in"
                             className="text-sm font-medium hover:underline underline-offset-4"
                         >
                             Sign In
-                        </Link>
-                    )}
+                        </Link>       
+                    </SignedOut>
                 </nav>
             </div>  
         </header>

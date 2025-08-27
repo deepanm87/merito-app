@@ -1,6 +1,7 @@
 import Header from "@/components/common/header"
 import Footer from "@/components/common/footer"
 import type { Metadata } from "next"
+import { ClerkProvider} from '@clerk/nextjs'
 import { DM_Sans, DM_Serif_Display } from "next/font/google"
 import "./globals.css"
 
@@ -26,14 +27,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={` ${fontSans.className} ${fontSerif.variable} antialiased`}
-      >
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={` ${fontSans.className} ${fontSerif.variable} antialiased`}
+        >
         <Header />
         {children}
         <Footer />
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
