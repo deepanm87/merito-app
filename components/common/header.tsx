@@ -3,7 +3,7 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 export default function Header() {
 
-    
+    const isSignedIn = true
 
     const navLinks = [
         {
@@ -14,7 +14,7 @@ export default function Header() {
             href: "#pricing",
             label: "Pricing"
         },
-        ...(SignedIn ? [{ href: "/dashboard",
+        ...(isSignedIn ? [{ href: "/dashboard",
             label: "Dashboard"
         }] : [])
     ]
@@ -36,7 +36,7 @@ export default function Header() {
                     href="/" 
                     className="flex items-center justify-center"
                 >
-                    <h1 className="font-serif">Merito</h1>
+                    <h1 className="font-serif text-xl font-bold">Merito</h1>
                 </Link>
                 <nav className="flex items-center gap-4 sm:gap-6">
                     {navLinkElements}

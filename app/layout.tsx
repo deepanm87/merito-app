@@ -1,4 +1,3 @@
-import Header from "@/components/common/header"
 import Footer from "@/components/common/footer"
 import type { Metadata } from "next"
 import { ClerkProvider} from '@clerk/nextjs'
@@ -32,7 +31,6 @@ export default function RootLayout({
         <body
           className={` ${fontSans.className} ${fontSerif.variable} antialiased`}
         >
-        <Header />
         {children}
         <Footer />
         </body>
