@@ -1,30 +1,54 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { prisma } from "@/lib/prisma"
 import { BookHeartIcon, EyeIcon, Trash2Icon } from "lucide-react"
 import Link from "next/link"
 
 async function getForms() {
-    return [
-        {
-            id: "1",
-            name: "Frontend snacks form",
-            responses: 10,
-            shareUrl: "https://frontendsnacks.com/forms/1"
-        },
-        {
-            id: "2",
-            name: "ProofyBubble Feedback Form",
-            responses: 3,
-            shareUrl: "https://proofybubbles.com/forms/1"
+    try {
+        const forms = await prisma.form.findMany({
+            select: {
+                id: true,
+                name: true,
+                formType: true,
+                _count: {
+                    select: {
+                        testimonials: true,
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: "desc"
+            }
+        })
+
+        return {
+            success: true,
+            data: forms.map(({ id, name, formType, _count }) => ({
+                id,
+                name,
+                responses: _count.testimonials,
+                formType
+            }))
         }
-    ]
+    } catch(error) {
+        console.error(`Error fetching all the forms ${error}`)
+        return {
+            success: false,
+            data: []
+        }
+    }
 }
 
 export default async function DashboardPage() {
 
-    const forms = await getForms()
+    const { success, data: forms } = await getForms()
 
-    const formsElements = forms.map( ({ id, name, responses, shareUrl }) => (
+    if (!success) {
+        return <div>Error fetching forms</div>
+    }
+
+    const formsElements = forms.map( ({ id, name, responses }) => (
         <Link href={`/reviews/${id}`} key={id} className="block">
             <Card 
             key={id}
@@ -46,7 +70,7 @@ export default async function DashboardPage() {
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                         <Button variant={"outline"} asChild>
-                            <Link href={shareUrl} target="_blank">
+                            <Link href={"/"} target="_blank">
                                 <EyeIcon className="w-4 h-4" />
                             </Link>
                         </Button>
