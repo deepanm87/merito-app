@@ -1,4 +1,5 @@
 import Footer from "@/components/common/footer"
+import { Toaster } from "@/components/ui/sonner"
 import type { Metadata } from "next"
 import { ClerkProvider} from '@clerk/nextjs'
 import { DM_Sans, DM_Serif_Display } from "next/font/google"
@@ -32,6 +33,7 @@ export default function RootLayout({
           className={` ${fontSans.className} ${fontSerif.variable} antialiased`}
         >
         {children}
+        <Toaster position="top-right" />
         <Footer />
         </body>
       </html>

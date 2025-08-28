@@ -1,44 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { prisma } from "@/lib/prisma"
-import { BookHeartIcon, EyeIcon, Trash2Icon } from "lucide-react"
+import { DeleteButton } from "@/components/dashboard/delete-button"
+import { getForms } from "@/lib/reviews"
+import { BookHeartIcon, EyeIcon } from "lucide-react"
 import Link from "next/link"
 
-async function getForms() {
-    try {
-        const forms = await prisma.form.findMany({
-            select: {
-                id: true,
-                name: true,
-                formType: true,
-                _count: {
-                    select: {
-                        testimonials: true,
-                    }
-                }
-            },
-            orderBy: {
-                createdAt: "desc"
-            }
-        })
 
-        return {
-            success: true,
-            data: forms.map(({ id, name, formType, _count }) => ({
-                id,
-                name,
-                responses: _count.testimonials,
-                formType
-            }))
-        }
-    } catch(error) {
-        console.error(`Error fetching all the forms ${error}`)
-        return {
-            success: false,
-            data: []
-        }
-    }
-}
 
 export default async function DashboardPage() {
 
@@ -74,7 +41,7 @@ export default async function DashboardPage() {
                                 <EyeIcon className="w-4 h-4" />
                             </Link>
                         </Button>
-                        <Button variant={"outline"}><Trash2Icon /></Button>
+                        <DeleteButton />
                     </div>
                 </div>
             </Card>
