@@ -4,6 +4,7 @@ import { DeleteButton } from "@/components/dashboard/delete-button"
 import { getForms } from "@/lib/reviews"
 import { BookHeartIcon, EyeIcon } from "lucide-react"
 import Link from "next/link"
+import CreateFormDialog from "@/components/dashboard/create-form-dialog"
 
 
 
@@ -52,7 +53,7 @@ export default async function DashboardPage() {
         <div className="wrapper">
             <div className="flex justify-between items-center mb-8">
                 <h2>Your Forms</h2>
-                <Button>Create Forms</Button>
+                <CreateFormDialog />
             </div>
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {formsElements}

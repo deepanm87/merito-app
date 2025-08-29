@@ -5,6 +5,55 @@ import { auth } from "@clerk/nextjs/server"
 import { Form } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
+import { nanoid } from "nanoid"
+
+export const createFormAction = async (
+  prevState: { 
+    success: boolean 
+    error: string 
+    data: Form | null },
+  formData: FormData
+) => {
+  try {
+    const { userId } = await auth()
+
+    if (!userId) {
+      throw new Error("Unauthorized")
+    }
+
+    const name = formData.get("name") as Form["name"]
+    const description = formData.get("description") as Form["description"]
+    const thankYouMessage = formData.get("thankYouMessage") as Form["thankYouMessage"]
+
+    const form = await prisma.form.create({
+      data: {
+        id: nanoid(5),
+        userId,
+        name,
+        description,
+        thankYouMessage,
+        formType: "testimonial"
+      }
+    })
+
+    
+    revalidatePath("/dashboard")
+
+    return {
+      success: true,
+      error: "",
+      data: form
+    }
+
+  } catch(error) {
+    console.error(`Error creating forms ${error}`)
+    return {
+      success: false,
+      error: "Failed to create form",
+      data: null
+    }
+  }
+}
 
 const deleteFormSchema = z.object({
   formId: z.string().min(1, "Form id is required")
