@@ -2,7 +2,7 @@ import { Params } from "@/@types/params"
 import { Button } from "@/components/ui/button"
 import TestimonialsList from "@/components/reviews/testimonials-list"
 import { getReviewFormById, getTestimonialsByFormId } from "@/lib/reviews"
-import { EyeIcon } from "lucide-react"
+import { EyeIcon, HeartIcon } from "lucide-react"
 import Link from "next/link"
 import { Form } from "@prisma/client"
 
@@ -40,6 +40,11 @@ export default async function ReviewsPage({ params }: { params: Params }) {
               </Link>
             </Button>
           </div>
+        </div>
+
+        <div className="flex items-center gap-2 justify-center my-8 mt-16 lg:mt-24">
+          <HeartIcon className="w-6 h-6 text-red-500 fill-red-500" />
+          <h2>Wall of love</h2>
         </div>
 
         <TestimonialsList formId={formId} testimonials={testimonials} />
