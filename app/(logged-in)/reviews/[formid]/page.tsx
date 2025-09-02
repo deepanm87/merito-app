@@ -5,6 +5,8 @@ import { getReviewFormById, getTestimonialsByFormId } from "@/lib/reviews"
 import { EyeIcon, HeartIcon } from "lucide-react"
 import Link from "next/link"
 import { Form } from "@prisma/client"
+import EmbedSection from "@/components/reviews/embed-section"
+import { notFound } from "next/navigation"
 
 export default async function ReviewsPage({ params }: { params: Params }) {
 
@@ -17,9 +19,7 @@ export default async function ReviewsPage({ params }: { params: Params }) {
   const testimonials = testimonialsResult.success ? testimonialsResult.data : []
 
   if (!form) {
-    return (
-      <div>Not found</div>
-    )
+    return notFound()
   }
 
   return (
@@ -41,6 +41,8 @@ export default async function ReviewsPage({ params }: { params: Params }) {
             </Button>
           </div>
         </div>
+
+        <EmbedSection formId={formId} />
 
         <div className="flex items-center gap-2 justify-center my-8 mt-16 lg:mt-24">
           <HeartIcon className="w-6 h-6 text-red-500 fill-red-500" />
