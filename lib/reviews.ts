@@ -81,7 +81,15 @@ export async function getTestimonialsByFormId({ formId }: { formId: Form["id"] }
         const testimonials = await prisma.testimonial.findMany({
             where: {
                 formId
-            }
+            },
+            orderBy: [
+                {
+                    status: "asc"
+                },
+                {
+                    updatedAt: "desc"
+                }
+            ]
         })
 
         return {

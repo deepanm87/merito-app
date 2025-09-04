@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { StarIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import ApproveRejectButtons from "@/components/reviews/approve-reject-buttons"
+import { TestimonialStatus } from "@/@types"
 
 export default function TestimonialsList({
   formId,
@@ -21,16 +23,24 @@ export default function TestimonialsList({
             <CardDescription>{role}</CardDescription>
           </div>
           <div>
-            <Badge 
-              className={cn(
-                "capitalize rounded-full text-sm px-3 py-1",
-                status === "approved" 
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
-                )}>
+            { status === TestimonialStatus.PENDING
+              ? ( <ApproveRejectButtons 
+                    formId={formId} 
+                    testimonialId={id}
+                  />)
+              : (
+                <Badge 
+                  className={cn(
+                    "capitalize rounded-full text-sm px-3 py-1",
+                    status === "approved" 
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
+                  )}>
                 {status}
-            </Badge>
-          </div>
+                </Badge>
+              )  
+            }
+            </div>
           </div>
       </CardHeader>
       <CardContent className="space-y-4">
