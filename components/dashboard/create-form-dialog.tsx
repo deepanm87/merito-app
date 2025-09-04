@@ -69,7 +69,7 @@ export default function CreateFormDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button>Create Form</Button>
       </DialogTrigger>
       <DialogContent>

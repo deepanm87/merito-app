@@ -2,6 +2,7 @@ import "server-only"
 
 import { prisma } from "@/lib/prisma"
 import { Form } from "@prisma/client"
+import { TestimonialStatus } from "@/@types"
 
 export async function getReviewFormById({ formId }: { formId: Form["id"]}) {
     try {
@@ -89,6 +90,36 @@ export async function getTestimonialsByFormId({ formId }: { formId: Form["id"] }
                 {
                     updatedAt: "desc"
                 }
+            ]
+        })
+
+        return {
+            success: true,
+            data: testimonials
+        }
+    } catch(error) {
+        console.error(`Error fetching all the testimonials ${error}`)
+        return {
+            success: false,
+            data: [],
+            error: "Failed to fetch testimonials"
+        }
+    }
+}
+
+export async function getApprovedTestimonalsByFormId({
+    formId
+}: {
+    formId: Form["id"]
+}) {
+    try {
+        const testimonials = await prisma.testimonial.findMany({
+            where: {
+                formId,
+                status: TestimonialStatus.APPROVED
+            },
+            orderBy: [
+                createdAt: "desc"
             ]
         })
 

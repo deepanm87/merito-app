@@ -1,4 +1,3 @@
-import Footer from "@/components/common/footer"
 import { Toaster } from "@/components/ui/sonner"
 import type { Metadata } from "next"
 import { ClerkProvider} from '@clerk/nextjs'
@@ -34,7 +33,6 @@ export default function RootLayout({
         >
         {children}
         <Toaster position="top-right" />
-        <Footer />
         </body>
       </html>
     </ClerkProvider>
