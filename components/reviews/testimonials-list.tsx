@@ -1,10 +1,10 @@
 import { Form, Testimonial } from "@prisma/client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { StarIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import ApproveRejectButtons from "@/components/reviews/approve-reject-buttons"
 import { TestimonialStatus } from "@/@types"
+import StarRating from "@/components/common/star-rating"
 
 export default function TestimonialsList({
   formId,
@@ -45,18 +45,7 @@ export default function TestimonialsList({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center gap-2">
-          { Array(5)
-            .fill(0)
-            .map( (_,index) => (
-              <StarIcon 
-                key={index}
-                className={cn(
-                  "w-6 h-6 text-yellow-400",
-                  index < rating && "fill-yellow-400"
-                )}
-              />
-            ))
-        }
+          <StarRating rating={rating} />
         </div>
         <p>{testimonial}</p>
       </CardContent>

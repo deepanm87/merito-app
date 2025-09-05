@@ -118,9 +118,9 @@ export async function getApprovedTestimonalsByFormId({
                 formId,
                 status: TestimonialStatus.APPROVED
             },
-            orderBy: [
+            orderBy: {
                 createdAt: "desc"
-            ]
+            }
         })
 
         return {

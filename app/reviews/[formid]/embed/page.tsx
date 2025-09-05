@@ -1,10 +1,8 @@
-
 import { HeartIcon } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { StarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { Params } from "@/@types/params"
 import { getApprovedTestimonialsByFormId } from "@/lib/reviews"
+import StarRating from "@/components/common/star-rating"
 
 export default async function EmbedPage({ params }: { params: Params}) {
 
@@ -20,18 +18,7 @@ export default async function EmbedPage({ params }: { params: Params}) {
     return <Card key={id} className="space-y-1 gap-4">
             <CardHeader>
               <div className="flex items-center gap-2">
-                { Array(5)
-                  .fill(0)
-                  .map( (_,index) => (
-                    <StarIcon 
-                      key={index}
-                      className={cn(
-                        "w-6 h-6 text-yellow-400",
-                        index < rating && "fill-yellow-400"
-                      )}
-                    />
-                  ))
-                }
+                <StarRating rating={rating} />
               </div>
             </CardHeader>
             <CardContent className="space-y-4">

@@ -39,7 +39,7 @@ export default async function DashboardPage() {
                         </Link>
                         <div className="flex items-center gap-2 flex-shrink-0">
                             <Button variant={"outline"} asChild>
-                                <Link href={"/"} target="_blank">
+                                <Link href={`/f/${id}`} target="_blank">
                                     <EyeIcon className="w-4 h-4" />
                                 </Link>
                             </Button>
