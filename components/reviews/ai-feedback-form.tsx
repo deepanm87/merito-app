@@ -7,11 +7,20 @@ import { FeedbackFormValues, feedbackSchema } from "./form/feedback-form-schema"
 import FormFieldWrapper from "./form-field-wrapper"
 import { Button } from "@/components/ui/button"
 import StarRatingWrapper from "@/components/common/star-rating"
-import { useState } from "react"
+import { useState, useEffect, useActionState } from "react"
+import { toast } from "sonner"
+import { useRouter } from "next/router"
 
-export default function AIFeedbackForm() {
+export default function AIFeedbackForm({ formId }: { formId: Form["id"] }) {
 
+  const router = useRouter()
   const [rating, setRating] = useState(0)
+  const [state, formAction, isPending] = useActionState(
+    createTestimonialAction, {
+      success: false,
+      error: null
+    }
+  )
 
 
   const form = useForm<FeedbackFormValues>({
@@ -24,20 +33,29 @@ export default function AIFeedbackForm() {
     }
   })
 
-  const onSubmit = (data: FeedbackFormValues) => {
-    console.log(data)
-  }
+  
+  useEffect(() => {
+    if (state.success) {
+      form.reset()
+    }
+  }, [state.success, form, router, formId])
 
   const handleRatingChange = (_rating: number) => {
     setRating(_rating)
     form.setValue("rating", _rating)
   }
 
+  const onSubmit = (data: FeedbackFormValues) => {
+    startTransition(() => {
+      formAction({ formId, data })
+    })
+  }
+
   return (
     <div className="space-y-6">
       <Form {...form}>
         <form 
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(formAction)}
           className="space-y-6 text-center"
         >
           <FormFieldWrapper 
@@ -81,7 +99,7 @@ export default function AIFeedbackForm() {
           />
 
           <Button type="submit" className="w-full">
-            Submit My Testimonial
+            { isPending ? "Submitting..." : "Submit My Testimonial" }
           </Button>
 
         </form>

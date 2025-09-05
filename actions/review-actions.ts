@@ -1,17 +1,24 @@
-
 "use server"
+
+import { feedbackSchema } from "@/components/reviews/form/feedback-form-schema"
+import { FeedbackFormValues } from "@/components/reviews/form/feedback-form-schema"
 
 import { prisma } from "@/lib/prisma"
 import { TestimonialStatus } from "@/@types"
 import { auth } from "@clerk/nextjs/server"
 import { Form, Testimonial } from "@prisma/client"
-import z from "zod"
+import z, { string } from "zod"
 import { revalidatePath } from 'next/cache'
+import { redirect } from "next/navigation"
 
 const testimonialSchema = z.object({
   formId: z.string().min(1, "Form id is required"),
   testimonialId: z.number().min(1, "Testimonial id is required"),
-  status: z.enum([TestimonialStatus.APPROVED, TestimonialStatus.REJECTED, TestimonialStatus.PENDING])
+  status: z.enum([
+    TestimonialStatus.APPROVED, 
+    TestimonialStatus.REJECTED, 
+    TestimonialStatus.PENDING
+  ])
 })
 
 export const updateTestimonialStatusAction = async ({ 
@@ -93,4 +100,54 @@ export const updateTestimonialStatusAction = async ({
       error: "Failed to update testimonial status"
     }
   }
+}
+
+const createTestimonialSchema = z.object({
+  formId: z.string().min(1, "Form id is required"),
+  data: feedbackSchema
+})
+
+export const createTestimonialAction = async ({
+  formId,
+  data
+}: {
+  formId: string
+  data: FeedbackFormValues
+}) => {
+  let newFormId: string
+  try {
+    const validationResult = createTestimonialSchema.safeParse({
+      formId,
+      data
+    })
+
+    if (!validationResult.success) {
+      return {
+        success: false,
+        error: 
+          validationResult.error.issues[0]?.message || "Invalid formId or data"
+      }
+    }
+
+    const { formId: validatedFormId, data: validatedData } = validationResult.data
+    newFormId = validateFormId
+
+    const result = await prisma.testimonial.create({
+      data: {
+        formId: validatedFormId,
+        status: TestimonialStatus.PENDING,
+        ...validatedData
+      }
+    })
+
+    revalidatePath(`/reviews/${validatedFormId}`)
+  } catch (error) {
+    console.error(`Error creating testimonial ${error}`)
+    return {
+      success: false,
+      error: "Failed to create testimonial"
+    }
+
+  }
+  redirect(`/f/${newFormId}/thankyou`)
 }
