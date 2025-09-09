@@ -1,10 +1,9 @@
-import Header from "@/components/common/header"
-import Banner from "@/components/home/banner"
-import WhyMerito from "@/components/home/why-merito"
-import Pricing from "@/components/home/pricing"
-import CTA from "@/components/home/cta"
-import Footer from "@/components/common/footer"
-
+import Footer from "@/components/common/footer";
+import Header from "@/components/common/header";
+import Banner from "@/components/home/banner";
+import CTA from "@/components/home/cta";
+import Pricing from "@/components/home/pricing";
+import WhyMerito from "@/components/home/why-merito";
 
 export default function Home() {
   return (
@@ -16,5 +15,5 @@ export default function Home() {
       <CTA />
       <Footer />
     </main>
-  )
+  );
 }

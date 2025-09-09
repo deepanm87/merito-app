@@ -50,12 +50,11 @@ export function PricingCard({
     <div className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-300">
       <div
         className={cn(
-          "card-pricing flex flex-col h-full relative",
+          "card-pricing",
           isPopular &&
             "border-orange-500 gap-5 border-2 shadow-lg scale-105 bg-orange-50/30"
         )}
       >
-        {isPopular && <span className="badge-popular">Popular</span>}
         <div className="flex justify-between items-center gap-4">
           <div>
             <p className="text-lg lg:text-xl font-bold capitalize text-gray-900">
@@ -102,7 +101,7 @@ export default function PricingTables() {
   return (
     <div className="relative overflow-hidden">
       <div className="section-container lg:pt-12">
-        <div className="pricing-container grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+        <div className="pricing-container">
           {pricingPlans.map((plan) => (
             <PricingCard key={plan.id} {...plan} />
           ))}

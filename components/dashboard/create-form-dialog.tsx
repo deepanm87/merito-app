@@ -1,71 +1,80 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Dialog, 
-  DialogContent, 
-  DialogDescription, 
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { createFormAction } from "@/actions/form-actions"
-import { useActionState, startTransition, useEffect } from "react"
-import { toast } from "sonner"
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { startTransition, useActionState, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { createFormAction } from "@/actions/form-actions";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().min(1, "Form name is required"),
   description: z.string().min(10, "Description is required"),
-  thankYouMessage: z.string().min(2, "Thank you message is required")
-})
+  thankYouMessage: z.string().min(2, "Thank you message is required"),
+});
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema>;
 
 export default function CreateFormDialog() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const [state, formAction, isPending] = useActionState(createFormAction, {
     success: false,
     error: "",
-    data: null
-  })
+    data: null,
+  });
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       description: "",
-      thankYouMessage: ""
-    }
-  })
+      thankYouMessage: "",
+    },
+  });
 
   useEffect(() => {
     if (state.success) {
-      setOpen(false)
-      form.reset()
-      toast.success("Form created successfully", {
-        description: "You can start collecting feedback",
-        icon: null
-      })
+      setOpen(false);
+      form.reset();
+      toast.success(" Wohoo! Form created", {
+        description: "Your form has been created successfully",
+        icon: "🎉",
+      });
     }
-  }, [state.success, setOpen, form])
+  }, [state.success, setOpen, form]);
 
   const onSubmit = (data: FormValues) => {
-    const formData = new FormData()
-    formData.append("name", data.name)
-    formData.append("description", data.description)
-    formData.append("thankYouMessage", data.thankYouMessage)
-    
-    startTransition( () => {
-      formAction(formData)
-    })
-  }
+    console.log(data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("thankYouMessage", data.thankYouMessage);
+
+    //invoke server action
+    startTransition(() => {
+      formAction(formData);
+    });
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -79,42 +88,47 @@ export default function CreateFormDialog() {
             Create a new form to collect feedback from your users.
           </DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField 
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Form Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter a name" {...field} />
+                    <Input placeholder="E.g. Product Feedback" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField 
+            <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Describe the form" {...field} />
+                    <Textarea placeholder="Describe this form" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField 
+
+            <FormField
               control={form.control}
               name="thankYouMessage"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Thank you Message</FormLabel>
+                  <FormLabel>Thank You Message</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="A message that gets shown to the user after form submission" {...field} />
+                    <Textarea
+                      placeholder="Message to show after submission"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -123,12 +137,12 @@ export default function CreateFormDialog() {
 
             <div className="flex justify-end gap-4">
               <Button type="submit" disabled={isPending}>
-                { isPending ? "Creating..." : "Create Form"}
+                {isPending ? "Creating..." : "Create Form"}
               </Button>
             </div>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

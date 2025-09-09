@@ -1,10 +1,13 @@
-import AuthLayout from "@/components/auth/auth-layout"
-import { SignUp } from "@clerk/nextjs"
+import AuthLayout from "@/components/auth/auth-layout";
+import { SignUp } from "@clerk/nextjs";
 
 export default function SignUpPage() {
-    return (
-        <AuthLayout title="Sign Up" subTitle="Create an account to get started">
-            <SignUp />
-        </AuthLayout>
-    )
+  return (
+    <AuthLayout
+      title="Sign up"
+      subTitle="Create your account and start collecting testimonials"
+    >
+      <SignUp />
+    </AuthLayout>
+  );
 }
