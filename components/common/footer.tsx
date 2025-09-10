@@ -51,6 +51,15 @@ export default function Footer() {
           
           <div className="text-white font-bold text-2xl">Merito</div>
 
+          <div className="mx-auto max-w-7xl px-6 py-4 flex flex-col items-center justify-center text-sm text-white-600">
+            <span className="text-1xl">
+              Made with <span className="text-red-500">❤️</span> in Toronto
+            </span>
+            <span>
+              Copyright © {new Date().getFullYear()} Merito, Inc.
+            </span>
+          </div>
+
           <div className="flex space-x-6">
             <a href="#" className="hover:text-white"><Twitter size={20} /></a>
             <a href="#" className="hover:text-white"><Facebook size={20} /></a>

@@ -28,7 +28,7 @@ export default async function ResponsesPage({ params }: { params: Params }) {
       <div className="flex items-center gap-2 justify-center my-8 mt-16 lg:mt-24">
           <h2>Responses</h2>
         </div>
-        <TestimonialsList formId={formId} testimonials={testimonials} />
+        <TestimonialsList formId={responseId} testimonials={testimonials} />
     </section>
   )
 }
