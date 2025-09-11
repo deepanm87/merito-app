@@ -34,9 +34,9 @@ export default async function ReviewsPage({ params }: { params: Params }) {
           </div>
 
           <div className="flex gap-2">
-            <Button asChild>
+            {/* <Button asChild>
               <Link href={`/responses/${formId}`}>View Responses</Link>
-            </Button>
+            </Button> */}
             <Button variant="outline" className="border-amber-400" asChild>
               <Link href={`/f/${formId}`} target="_blank">
                 <EyeIcon className="w-4 h-4" />
