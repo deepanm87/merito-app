@@ -1,18 +1,18 @@
-import AIFeedbackForm from "@/components/reviews/ai-feedback-form";
-import { getReviewFormById } from "@/lib/reviews";
-import { Form } from "@prisma/client";
-import { notFound } from "next/navigation";
+import AIFeedbackForm from "@/components/reviews/ai-feedback-form"
+import { getReviewFormById } from "@/lib/reviews"
+import { Form } from "@prisma/client"
+import { notFound } from "next/navigation"
 
-type Params = Promise<{ formId: Form["id"] }>;
+type Params = Promise<{ formId: Form["id"] }>
 
 export default async function FormPage({ params }: { params: Params }) {
-  const { formId } = await params;
+  const { formId } = await params
 
-  const formResult = await getReviewFormById({ formId });
-  const form = formResult.success ? (formResult.data as Form) : null;
+  const formResult = await getReviewFormById({ formId })
+  const form = formResult.success ? (formResult.data as Form) : null
 
   if (!form) {
-    return notFound();
+    return notFound()
   }
 
   return (
@@ -30,5 +30,5 @@ export default async function FormPage({ params }: { params: Params }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

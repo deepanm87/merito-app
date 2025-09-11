@@ -1,4 +1,4 @@
-import StarRating from "@/components/common/star-rating";
+import StarRating from "@/components/common/star-rating"
 import {
   Card,
   CardContent,
@@ -6,20 +6,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { getApprovedTestimonialsByFormId } from "@/lib/reviews";
-import { Form } from "@prisma/client";
-import { HeartIcon } from "lucide-react";
+} from "@/components/ui/card"
+import { getApprovedTestimonialsByFormId } from "@/lib/reviews"
+import { Form } from "@prisma/client"
+import { HeartIcon } from "lucide-react"
 
-type Params = Promise<{ formId: Form["id"] }>;
+type Params = Promise<{ formId: Form["id"] }>
 
 export default async function EmbedPage({ params }: { params: Params }) {
-  const { formId } = await params;
+  const { formId } = await params
 
-  const testimonialsResult = await getApprovedTestimonialsByFormId({ formId });
+  const testimonialsResult = await getApprovedTestimonialsByFormId({ formId })
   const testimonials = testimonialsResult.success
     ? testimonialsResult.data
-    : [];
+    : []
 
   return (
     <div className="">
@@ -48,9 +48,9 @@ export default async function EmbedPage({ params }: { params: Params }) {
                 </div>
               </CardFooter>
             </Card>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }
